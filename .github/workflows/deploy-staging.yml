@@ -21,12 +21,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 9.12.3
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile=false
@@ -41,5 +40,10 @@ jobs:
           if [ -z "$STAGING_DEPLOY_HOOK" ]; then
             echo "Missing STAGING_DEPLOY_HOOK secret"
             exit 1
+          fi
+          if [[ "$STAGING_DEPLOY_HOOK" == http://127.0.0.1* ]] || [[ "$STAGING_DEPLOY_HOOK" == https://127.0.0.1* ]] || [[ "$STAGING_DEPLOY_HOOK" == http://localhost* ]] || [[ "$STAGING_DEPLOY_HOOK" == https://localhost* ]]; then
+            echo "Local-only staging mode detected ($STAGING_DEPLOY_HOOK)."
+            echo "Skipping remote webhook deploy from GitHub Actions by policy."
+            exit 0
           fi
           curl -fsSL -X POST "$STAGING_DEPLOY_HOOK"

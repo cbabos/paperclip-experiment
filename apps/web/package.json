@@ -1,0 +1,12 @@
+{
+  "name": "@paperclip/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node src/dev-server.js",
+    "lint": "node --check src/*.js",
+    "test": "echo 'web test placeholder'",
+    "build": "echo 'web build placeholder'",
+    "typecheck": "echo 'web typecheck placeholder'"
+  }
+}

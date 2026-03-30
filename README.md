@@ -56,7 +56,12 @@ To enforce merge gates, configure branch protection on `main` in GitHub and requ
 
 `/.github/workflows/deploy-staging.yml` deploys on `main`.
 
-Configure repository secret `STAGING_DEPLOY_HOOK` with your staging provider deploy URL.
+Configure repository secret `STAGING_DEPLOY_HOOK` with one of:
+
+- a staging provider deploy webhook URL (standard remote deploy mode), or
+- a local-only value like `http://127.0.0.1:36666` when staging is intentionally local Docker only.
+
+When `STAGING_DEPLOY_HOOK` points at `127.0.0.1`/`localhost`, GitHub Actions validates build + trigger and exits successfully without attempting a remote webhook call.
 
 ## Required Org/Repo Admin Setup
 
